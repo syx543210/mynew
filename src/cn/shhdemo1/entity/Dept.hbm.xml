@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- 
+
+  This mapping demonstrates content-based discrimination for the
+  table-per-hierarchy mapping strategy, using a formula
+  discriminator.
+
+-->
+<hibernate-mapping package="cn.shhdemo1.entity">
+	<class name="Dept" table="t_dept">
+		<!-- 配置主键 -->
+		<id name="deptId" column="deptId">
+			<!-- mysql(自增) -->
+			<generator class="native"/>
+		</id>
+		<!-- 其他字段的映射 -->
+		<property name="deptName" column="deptName"></property>
+		
+		<!-- 
+			set标签
+				name:对应的集合名称
+				table:集合所对应的表名称
+				key:这个集合中的外键
+				class:集合对应的时哪一个类
+				
+				inverse:配置哪一方有控制权(存在set标签中)，默认值显而易见为false，
+						在这一方有着执行权
+		 -->
+		<!-- 映射的配置 -->
+		<set name="emps" cascade="save-update,delete" table="t_employee" inverse="false">
+			<key column="dept_id"></key>
+			<one-to-many class="Employee"/>
+		</set>
+	</class>
+</hibernate-mapping>
+
+
